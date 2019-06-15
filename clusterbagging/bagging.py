@@ -113,6 +113,15 @@ class ClusterBag:
         
         return np.array(prediction)
 
-        
+
+    def get_params(self, deep=True):
+        out = {}
+
+        out["estimatorcluster"] = self.estimatorcluster
+        out["estimatormodel"] = self.estimatormodel
+        for model in self.estimators_ : 
+            out["model"+str(model)] = self.estimators_[model].get_params()
+
+        return out 
         
 
