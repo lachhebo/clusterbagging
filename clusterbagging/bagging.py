@@ -14,7 +14,7 @@ class ClusterBag:
         '''
 
         if estimatorcluster == None :
-            self.estimatorcluster = KMeans()
+            self.estimatorcluster = KMeans(n_clusters=3)
         else : 
             self.estimatorcluster = estimatorcluster
 
@@ -54,8 +54,10 @@ class ClusterBag:
         fit an estimator on the dataset related to his cluster
         '''
 
-        ## check if estimatorcluster is fitted TODO
+        ## check if estimatorcluster is fitted 
 
+        if self.is_fitted_cluster == 0 :
+            raise Exception('You need to first fit the cluster estimator ')
 
         ## Create a clone of our model 
 

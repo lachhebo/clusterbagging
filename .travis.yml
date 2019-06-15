@@ -1,0 +1,9 @@
+os: linux
+
+language: python
+
+install:
+  - pip3 install -r requirements.txt
+
+script:
+- pytest -v tests/test_bagging.py
