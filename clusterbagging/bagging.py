@@ -1,10 +1,9 @@
 import numpy as np 
 from sklearn.cluster import KMeans
+from sklearn.base import BaseEstimator,clone
 from sklearn.linear_model import LinearRegression
-from sklearn.base import clone 
 
-
-class ClusterBag:
+class ClusterBag(BaseEstimator):
 
     def __init__(self, estimatorcluster = None, estimatormodel = None):
         '''
@@ -20,12 +19,16 @@ class ClusterBag:
 
         if estimatormodel == None : 
             self.estimatormodel = LinearRegression()
+        else :
+            self.estimatormodel = estimatormodel
+
+        
+        self.estimators_ = {}
 
         self.is_fitted_cluster = 0
         self.is_fitted = 0
 
-        self.estimators_ = {}
-
+        
     def fit(self, X, y):
         '''
         fit the cluster model then the estimators models
@@ -35,6 +38,8 @@ class ClusterBag:
         self.fit_estimators(X,y,self.estimatormodel)
 
         self.is_fitted_cluster = 1
+
+        return self
 
     def fit_estimator_cluster(self, X, y = None):
         '''
@@ -118,10 +123,21 @@ class ClusterBag:
         out = {}
 
         out["estimatorcluster"] = self.estimatorcluster
-        out["estimatormodel"] = self.estimatormodel
-        for model in self.estimators_ : 
-            out["model"+str(model)] = self.estimators_[model].get_params()
+        out["estimatormodel"] = self.estimatorcluster
 
-        return out 
-        
+        for model in self.estimators_ :
+            out["estimator"+str(model)] = self.estimators_[model]
+
+
+        for key in self.estimatorcluster.get_params() :
+            out["estimatorcluster__"+str(key)] = self.estimatorcluster.get_params()[key]
+
+        for  key in  self.estimatormodel.get_params() :
+            out["estimatormodel__"+str(key)] =  self.estimatormodel.get_params()[key]
+            
+        for model in self.estimators_ : 
+            for key in self.estimators_[model].get_params() :
+                out["estimator"+str(model)+"__"+str(key)] = self.estimators_[model].get_params()[key]
+
+        return out
 

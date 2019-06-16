@@ -11,7 +11,7 @@ setuptools.setup(
     description="A Package to do cluster bagging",
     long_description="",
     long_description_content_type="text/markdown",
-    url="https://github.com/lachhebo/pyclustertend", 
+    url="https://github.com/lachhebo/clusterbagging", 
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
